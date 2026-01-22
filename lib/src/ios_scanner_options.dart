@@ -18,7 +18,7 @@ import 'ios_image_format.dart';
 /// Note: This feature is not available on iOS as VNDocumentCameraViewController
 /// uses system UI that cannot be customized. This parameter is included for API
 /// consistency but will be ignored on iOS.
-final class IosScannerOptions {
+class IosScannerOptions {
   /// Creates a [IosScannerOptions].
   const IosScannerOptions({
     this.imageFormat = IosImageFormat.png,
