@@ -53,6 +53,8 @@ class CunningDocumentScanner {
           'singleDocumentMode': iosScannerOptions.singleDocumentMode,
           if (iosScannerOptions.frameColor != null)
             'frameColor': iosScannerOptions.frameColor,
+          if (iosScannerOptions.maxImageDimension != null)
+            'maxImageDimension': iosScannerOptions.maxImageDimension,
         }
     });
     return pictures?.map((e) => e as String).toList();

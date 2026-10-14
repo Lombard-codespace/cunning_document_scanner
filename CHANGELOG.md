@@ -1,3 +1,17 @@
+## 2.0.3
+### iOS Fixes
+* Fixed crashes and lost results when a new scan was started while the previous one was still being saved. A second call now fails with `ALREADY_ACTIVE` until the previous result has been delivered.
+* The result is delivered only after the scanner has been dismissed and all pages are saved, and the method channel is answered exactly once.
+* Scanner options are copied before background processing to avoid a data race.
+* Pages are saved inside an `autoreleasepool` to keep memory usage flat for multi-page scans.
+* Scans are written to the temporary directory instead of the Documents directory, with unique file names.
+* Only files that were actually written are returned.
+* The scanner is presented from the top-most view controller and returns `NO_VIEW_CONTROLLER` if none is available.
+* Removed a force cast when reading `iosScannerOptions`.
+
+### Improvements
+* Added `IosScannerOptions.maxImageDimension` to scale scanned pages down before saving.
+
 ## 2.0.0
 ### Breaking Changes
 * Reorganized library structure: all implementation files moved to `lib/src/` directory.

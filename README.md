@@ -114,6 +114,20 @@ On iOS it is possible to configure which image format should be used to save of 
    );
 ```
 
+Large scans can be scaled down before they are saved with `maxImageDimension`, which limits the longest side of each page in pixels. This keeps memory usage and file size low for multi-page scans:
+
+```dart
+   final imagesPath = await CunningDocumentScanner.getPictures(
+      iosScannerOptions: IosScannerOptions(
+         imageFormat: IosImageFormat.jpg,
+         jpgCompressionQuality: 0.8,
+         maxImageDimension: 2400,
+      ),
+   );
+```
+
+Scanned pages are written to the app's temporary directory. Delete them once you no longer need them.
+
 ## Installation
 
 Before you begin, make sure you have Flutter and Dart installed on your system. You can follow the [Flutter installation guide](https://flutter.dev/docs/get-started/install) for more information.

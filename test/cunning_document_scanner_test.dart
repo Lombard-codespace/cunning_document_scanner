@@ -80,5 +80,51 @@ void main() {
       final result = await CunningDocumentScanner.getPictures();
       expect(result, fakeResult);
     });
+
+    testWidgets('getPictures passes iOS scanner options',
+        (WidgetTester tester) async {
+      MethodCall? receivedCall;
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        const MethodChannel('cunning_document_scanner'),
+        (MethodCall methodCall) {
+          receivedCall = methodCall;
+          return Future.value(<String>[]);
+        },
+      );
+
+      await CunningDocumentScanner.getPictures(
+        iosScannerOptions: const IosScannerOptions(
+          imageFormat: IosImageFormat.jpg,
+          jpgCompressionQuality: 0.8,
+          maxImageDimension: 2400,
+        ),
+      );
+
+      final iosOptions =
+          (receivedCall!.arguments as Map)['iosScannerOptions'] as Map;
+      expect(iosOptions['imageFormat'], 'jpg');
+      expect(iosOptions['jpgCompressionQuality'], 0.8);
+      expect(iosOptions['maxImageDimension'], 2400);
+    });
+
+    testWidgets('getPictures omits maxImageDimension when not set',
+        (WidgetTester tester) async {
+      MethodCall? receivedCall;
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        const MethodChannel('cunning_document_scanner'),
+        (MethodCall methodCall) {
+          receivedCall = methodCall;
+          return Future.value(<String>[]);
+        },
+      );
+
+      await CunningDocumentScanner.getPictures(
+        iosScannerOptions: const IosScannerOptions(),
+      );
+
+      final iosOptions =
+          (receivedCall!.arguments as Map)['iosScannerOptions'] as Map;
+      expect(iosOptions.containsKey('maxImageDimension'), isFalse);
+    });
   });
 }
